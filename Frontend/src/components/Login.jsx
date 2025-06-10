@@ -1,15 +1,36 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 export const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [data, setData] = useState({
+        email: '',
+        password:''
+    });
 
-    const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login data:", { email, password });
-    // Aquí iría la lógica para autenticar al usuario
+    const [res, setRes] = useState([]);
+
+    const handleChange = (e) => {
+    setData({
+            ...data,
+            [e.target.name]: e.target.value
+        })
     };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            await axios.get('/').then(response => {
+                setRes(response.data)
+            })
+
+            if (res.email) {
+                
+            }
+        } catch (error) {
+            console.log('hola')
+        }
+    }
 
     return (
     <section className="flex w-screen h-screen justify-center items-center">
@@ -26,9 +47,9 @@ export const Login = () => {
                 <input
                 type="email"
                 id="email"
-                className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-3 focus:ring-gray-400"
+                className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-3 focus:ring-green-600"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleChange}
                 required
                 />
             </div>
@@ -43,9 +64,9 @@ export const Login = () => {
                 <input
                 type="password"
                 id="password"
-                className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-3 focus:ring-gray-400"
+                className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-3 focus:ring-green-600"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleChange}
                 requiredx
                 />
             </div>
@@ -54,14 +75,14 @@ export const Login = () => {
 
             <button
                 type="submit"
-                className="w-full mb-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 rounded-xl transition duration-300"
+                className="w-full mb-3 bg-gray-600 hover:bg-green-800 text-white font-semibold py-2 rounded-xl transition duration-300"
             >
                 Ingresar
             </button>
 
             <button
                     type="submit"
-                    className="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 rounded-xl transition duration-300"
+                    className="w-full bg-gray-600 hover:bg-green-800 text-white font-semibold py-2 rounded-xl transition duration-300"
                 >
                     Ingresar como invitado
                 </button>
