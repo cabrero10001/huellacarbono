@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+;
 
 export const Register = () => {
+
+    const nav = useNavigate()
+
     const [data, setData] = useState({
         email: '',
         password: '',
@@ -22,17 +28,29 @@ export const Register = () => {
     const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const res = await axios.post('/', data)
+        console.log("Datos de usuario: ", data)
+        const res = await axios.post('http://localhost:3000/api/Registro', data)
+        if (res.status == 201) {
+            console.log("Usuario registrado exitosamente")
+            alert("Usuario registrado exitosamente")
+            nav("/login")
+        }
     } catch (error) {
-        
+        console.log(error)
+        if (error.response?.status == 409) {
+            alert("el usuario ya existe en la base de datos")
+        } else {
+            console.log("error inesperado del servidor")
+            alert("error inesperado del servidor")
+        }
     }
-    // Aquí iría la lógica para autenticar al usuario
+
     };
 
     return (
     <div className="flex w-screen h-screen justify-center items-center">
         <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold mb-6 text-center">Registro</h2>
+            <h2 className="text-2xl text-green-950 font-Newake mb-6 text-center">REGISTRO</h2>
             <form onSubmit={handleSubmit}>
             <div className="mb-4">
                 <label
@@ -45,7 +63,7 @@ export const Register = () => {
                 type="email"
                 id="email"
                 className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-3 focus:ring-gray-400"
-                name={email}
+                name="email"
                 onChange={handleChange}
                 required
                 />
@@ -62,7 +80,7 @@ export const Register = () => {
                 type="password"
                 id="password"
                 className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-3 focus:ring-gray-400"
-                name={password}
+                name="password"
                 onChange={handleChange}
                 required
                 />
@@ -77,9 +95,9 @@ export const Register = () => {
                 </label>
                 <input
                 type="password"
-                id="password"
+                id="confirm"
                 className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-3 focus:ring-gray-400"
-                name={confirm}
+                name="confirm"
                 onChange={handleChange}
                 required
                 />
@@ -89,14 +107,14 @@ export const Register = () => {
 
             <button
                 type="submit"
-                className="w-full mb-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 rounded-xl transition duration-300"
+                className="w-full mb-2 bg-gray-600 hover:bg-green-800 text-white font-semibold py-2 rounded-xl transition duration-300 cursor-pointer"
             >
                 Ingresar
             </button>
 
             <button
-                type="submit"
-                className="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 rounded-xl transition duration-300"
+                type="button"
+                className="w-full bg-gray-600 hover:bg-green-800 text-white font-semibold py-2 rounded-xl transition duration-300 cursor-pointer"
             >
                 Ingresar como invitado
             </button>

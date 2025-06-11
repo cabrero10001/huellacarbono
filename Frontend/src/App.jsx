@@ -5,6 +5,7 @@ import viteLogo from '/vite.svg'
 import { Login } from './components/Login'
 import { Register } from './components/Register'
 import { Fondo } from './components/Fondo'
+import { CalculadoraHuella } from './components/Calculadora'
 
 function App() {
 
@@ -20,6 +21,11 @@ function App() {
             <Register />
           </Fondo>
           }/>
+        <Route path='/calculadora' element={
+          <Fondo>
+            <CalculadoraHuella />
+          </Fondo>
+          } />
       </Routes>
     )
 }

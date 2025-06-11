@@ -9,12 +9,11 @@ datasource db {
 
 model user{
   id        String   @id @default(uuid())
-  username  String   @unique
+  email     String   @unique
   password  String
-  email     String   
-  registros registro[]
+  //registros registro[]
 }
-model registro{
+/*model registro{
   id        String      @id @default(uuid())
   nombre    String
   apellido  String
@@ -24,4 +23,4 @@ model registro{
   userId    String
   // Relations
   user      user     @relation(fields: [userId], references: [id])
-}
+}*/

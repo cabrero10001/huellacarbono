@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 export const Login = () => {
+
+    const nav = useNavigate();
+
     const [data, setData] = useState({
         email: '',
         password:''
     });
-
-    const [res, setRes] = useState([]);
 
     const handleChange = (e) => {
     setData({
@@ -20,22 +23,27 @@ export const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            await axios.get('/').then(response => {
-                setRes(response.data)
-            })
-
-            if (res.email) {
-                
+            const respuesta = await axios.post('http://localhost:3000/api/Login', data);
+            if (respuesta.status == 201) {
+                console.log("logueo exitoso");
+                alert("SESION INICIADA")
+                nav("/calculadora")
             }
         } catch (error) {
-            console.log('hola')
+            if (error.response?.status == 404) {
+                alert("El correo no se encuentra registrado")
+                console.log("el usuario no existe")
+            } else if (error.response?.status == 401) {
+                alert("La contraseña es incorrecta")
+                console.log("la contraseña es incorrecta")
+            }
+            
         }
-    }
-
+    } 
     return (
     <section className="flex w-screen h-screen justify-center items-center">
         <div className=" w-full max-w-sm bg-white rounded-2xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold mb-6 text-center">Iniciar sesión</h2>
+            <h2 className="text-2xl text-green-950 font-Newake mb-6 text-center">INICIAR SESION</h2>
             <form onSubmit={handleSubmit}>
             <div className="mb-4">
                 <label
@@ -48,7 +56,7 @@ export const Login = () => {
                 type="email"
                 id="email"
                 className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-3 focus:ring-green-600"
-                value={email}
+                name="email"
                 onChange={handleChange}
                 required
                 />
@@ -65,9 +73,9 @@ export const Login = () => {
                 type="password"
                 id="password"
                 className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-3 focus:ring-green-600"
-                value={password}
+                name="password"
                 onChange={handleChange}
-                requiredx
+                required
                 />
             </div>
 
@@ -75,14 +83,14 @@ export const Login = () => {
 
             <button
                 type="submit"
-                className="w-full mb-3 bg-gray-600 hover:bg-green-800 text-white font-semibold py-2 rounded-xl transition duration-300"
+                className="w-full mb-3 bg-gray-600 hover:bg-green-800 text-white font-semibold py-2 rounded-xl transition duration-300 cursor-pointer"
             >
                 Ingresar
             </button>
 
             <button
-                    type="submit"
-                    className="w-full bg-gray-600 hover:bg-green-800 text-white font-semibold py-2 rounded-xl transition duration-300"
+                    type="button"
+                    className="w-full bg-gray-600 hover:bg-green-800 text-white font-semibold py-2 rounded-xl transition duration-300 cursor-pointer"
                 >
                     Ingresar como invitado
                 </button>
