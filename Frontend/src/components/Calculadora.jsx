@@ -3,9 +3,9 @@ import React, { useState } from "react";
 export const CalculadoraHuella = () => {
     const [datos, setDatos] = useState({
         transporteKm: 0,
-        tipoTransporte: "auto",
+        tipoTransporte: "",
         electricidad: 0,
-        dieta: "omnivoro"
+        dieta: ""
     });
 
     const [resultado, setResultado] = useState(null);
@@ -27,10 +27,10 @@ export const CalculadoraHuella = () => {
         total += parseFloat(datos.electricidad) * 0.2;
 
         // Dieta
-        if (datos.dieta === "carnivoro") total += 250;
-        if (datos.dieta === "omnivoro") total += 208;
-        if (datos.dieta === "vegetariano") total += 167;
-        if (datos.dieta === "vegano") total += 125;
+        if (datos.dieta === "Alta carne roja y productos animales") total += 250;
+        if (datos.dieta === "Mixto, carne + vegetales") total += 208;
+        if (datos.dieta === "Sin carne, pero con lácteos y huevos") total += 167;
+        if (datos.dieta === "Solo alimentos vegetales, menor impacto") total += 125;
 
         setResultado(total.toFixed(2));
     };
@@ -55,10 +55,10 @@ export const CalculadoraHuella = () => {
 
                 <label className="block mb-2">Tipo de dieta:</label>
                 <select name="dieta" onChange={handleChange} className="w-full mb-4 border px-2 py-1">
-                    <option value="carnivoro">Carnívoro</option>
-                    <option value="omnivoro">Omnívoro</option>
-                    <option value="vegetariano">Vegetariano</option>
-                    <option value="vegano">Vegano</option>
+                    <option value="carnivoro">Alta carne roja y productos animales</option>
+                    <option value="omnivoro">Mixto, carne + vegetales</option>
+                    <option value="vegetariano">Sin carne, pero con lácteos y huevos</option>
+                    <option value="vegano">Solo alimentos vegetales, menor impacto</option>
                 </select>
 
                 <button onClick={calcularHuella} className="w-full bg-gray-600 hover:bg-green-800 text-white py-2 rounded-xl transition duration-300 cursor-pointer">Calcular</button>
